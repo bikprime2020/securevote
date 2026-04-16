@@ -1,0 +1,25 @@
+{
+  "overview": "SecureVote is a next-generation online voting platform with role-based access, dynamic ballot creation, real-time results, and a stunning glassmorphism UI powered by Framer Motion animations.",
+  "features": [
+    "Role-based login via Internet Identity (Voter / Admin)",
+    "Admin election creation with Multiple Choice and Yes/No questions",
+    "Scheduled elections with automatic open/close by time",
+    "Voter ballot interface with real-time validation and anonymous confirmation token",
+    "Live turnout dashboard with animated bar and pie charts",
+    "Glassmorphism dark-theme UI — backdrop blur cards, subtle gradients",
+    "Framer Motion: page transitions, marquee status bar, staggered reveals, micro-interactions",
+    "Custom percentage-based loading screen on first entry"
+  ],
+  "category": "productivity",
+  "tags": [
+    "voting",
+    "elections",
+    "democracy",
+    "admin",
+    "dashboard",
+    "glassmorphism",
+    "framer-motion",
+    "internet-identity"
+  ],
+  "last_updated": "2026-04-16T12:28:14.906Z"
+}

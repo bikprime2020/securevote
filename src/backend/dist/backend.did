@@ -1,0 +1,112 @@
+type VoteConfirmation = 
+ record {
+   confirmationToken: text;
+   electionId: ElectionId;
+ };
+type UserRole = 
+ variant {
+   admin;
+   guest;
+   user;
+ };
+type TurnoutInfo = 
+ record {
+   electionId: ElectionId;
+   totalVotesCast: nat;
+   turnoutPercent: float64;
+ };
+type Timestamp = int;
+type QuestionType = 
+ variant {
+   multipleChoice: record {options: vec text;};
+   yesNo;
+ };
+type QuestionResult = 
+ record {
+   optionCounts: vec record {
+                       text;
+                       nat;
+                     };
+   questionId: QuestionId;
+   questionText: text;
+ };
+type QuestionId = nat;
+type Question = 
+ record {
+   id: QuestionId;
+   questionType: QuestionType;
+   "text": text;
+ };
+type ElectionSummary = 
+ record {
+   description: text;
+   endTime: Timestamp;
+   id: ElectionId;
+   questionCount: nat;
+   startTime: Timestamp;
+   status: ElectionStatus;
+   title: text;
+ };
+type ElectionStatus = 
+ variant {
+   active;
+   closed;
+   scheduled;
+ };
+type ElectionResults = 
+ record {
+   electionId: ElectionId;
+   eligibleVoterCount: nat;
+   questionResults: vec QuestionResult;
+   title: text;
+   totalVoters: nat;
+   turnoutPercent: float64;
+ };
+type ElectionId = nat;
+type Election = 
+ record {
+   createdBy: principal;
+   description: text;
+   endTime: Timestamp;
+   id: ElectionId;
+   questions: vec Question;
+   startTime: Timestamp;
+   title: text;
+ };
+type CreateQuestionArgs = 
+ record {
+   questionType: QuestionType;
+   "text": text;
+ };
+type CreateElectionArgs = 
+ record {
+   description: text;
+   endTime: Timestamp;
+   questions: vec CreateQuestionArgs;
+   startTime: Timestamp;
+   title: text;
+ };
+type CastVoteArgs = 
+ record {
+   answers: vec Answer;
+   electionId: ElectionId;
+ };
+type Answer = 
+ record {
+   questionId: QuestionId;
+   selectedOption: text;
+ };
+service : {
+  _initializeAccessControl: () -> ();
+  assignCallerUserRole: (user: principal, role: UserRole) -> ();
+  castVote: (args: CastVoteArgs) -> (VoteConfirmation);
+  createElection: (args: CreateElectionArgs) -> (Election);
+  getCallerUserRole: () -> (UserRole) query;
+  getElection: (id: ElectionId) -> (opt Election) query;
+  getElectionResults: (electionId: ElectionId) -> (opt ElectionResults) query;
+  getTurnout: (electionId: ElectionId) -> (opt TurnoutInfo) query;
+  hasVoted: (electionId: ElectionId) -> (bool) query;
+  isCallerAdmin: () -> (bool) query;
+  listActiveElections: () -> (vec ElectionSummary) query;
+  listElections: () -> (vec ElectionSummary) query;
+}
